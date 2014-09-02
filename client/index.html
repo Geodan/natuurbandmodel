@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html><!-- nomanifest="app.manifest" -->
+    <head>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />
+    <meta charset="UTF-8">
+        <title class="i18n">Wildfire modeling</title>
+        <!-- Ext resources -->
+        <link rel="stylesheet" type="text/css"
+              href="./lib/ext/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css"
+              href="./lib/ext/css/xtheme-gray.css" />
+        
+        <!-- check geodan online -->
+        <script type="text/javascript" src="http://model.geodan.nl/main/gmi/externals/geodan.js"></script>
+        <!-- EITHER default ext js adapter -->
+        
+        <!-- OR jquery library and related extjs adapter -->
+        <script type="text/javascript" src="./lib/jquery/jquery-1.9.1.min.js"></script>
+        <!-- met/zonder -debug -->
+        <script type="text/javascript" src="./lib/ext/ext-jquery-adapter.js"></script>
+        <!-- rest of extjs (met/zonder -debug) -->
+        <script type="text/javascript" src="./lib/ext/ext-all.js"></script>
+        
+        <!-- Proj resources -->
+	    <script type="text/javascript" src="./lib/proj4js_combined.js"></script>
+        
+        <script type="text/javascript" src="./lib/OpenLayers/OpenLayers.js"></script>
+        <script type="text/javascript" src="./lib/OpenLayers/fr.js"></script>
+        <script type="text/javascript" src="./lib/OpenLayers/nl.js"></script>
+        <link rel="stylesheet" type="text/css" href="./lib/OpenLayers/css/style.css" />
+        <!-- GeoExt -->
+        <script src="./lib/GeoExt/GeoExt.js" type="text/javascript"></script>
+        <script src="./lib/GeoExt/GeoExt-fr.js" type="text/javascript"></script>
+        <script src="./lib/GeoExt/GeoExt-nl.js" type="text/javascript"></script>
+	<!-- gxp resources -->
+	<!--link rel="stylesheet" type="text/css" href="externals/gxp/src/theme/all.css" />
+	<script type="text/javascript" src="externals/gxp/src/script/loader.js"></script-->
+	<script type="text/javascript">
+        /** Create viewer instance, this is the core of the app **/
+        Proj4js.defs["EPSG:28992"] = "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079  +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +units=m +no_defs";
+        Proj4js.defs["EPSG:32631"] = "+proj=utm +zone=31 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"; 
+        </script>
+        <script type="text/javascript">
+if (typeof String.prototype.startsWith !== 'function') {
+    // needed for Chrome browser
+    String.prototype.startsWith = function (str){
+        return this.slice(0, str.length) === str;
+    };
+};
+if (typeof Date.prototype.increment !== 'function') {
+    Date.prototype.increment = function(d) {
+        this.setTime( this.getTime() + d * 24 * 3600 * 1000 );
+        return this;
+    };
+};
+if (OpenLayers.Lang.getCode() !== 'en') {
+    jQuery.getScript('.lib/ext/locale/ext-lang-' + OpenLayers.Lang.getCode() + '.js');
+};
+        </script>
+        <link rel="stylesheet" type="text/css" href="./lib/GeoExt/geoext-all.css" />
+        <link rel="stylesheet" type="text/css" href="./css/natuurbrandmodel.css" />
+    </head>
+    <body>
+        <script type="text/javascript" src="./js/natuurbrandmodel.js"></script>
+    </body>
+</html>
