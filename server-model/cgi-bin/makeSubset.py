@@ -32,7 +32,7 @@ def main():
 		
 	updateStatus(runid, "running", 10)
 	
-	#Stap 1: Maak raster ahv landgebruik aan
+	#Stap 1: Maak clip van terreindata
 	query = """
 		SET work_mem TO 1200000;
 SET maintenance_work_mem TO 1200000;

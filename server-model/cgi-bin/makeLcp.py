@@ -132,9 +132,9 @@ class makeLcp():
 SELECT AddRasterConstraints('model_wildfire', 'ahn1_%(runid)s'::name, 'rast'::name);
 		"""
 		data = ({'runid':runid})
-		#TT: Disabled the use of DEMS (no AHN data available)
-		#self.cur.execute(query,data )
-		#self.conn.commit()
+		
+		self.cur.execute(query,data )
+		self.conn.commit()
 		
 		#Stap 4: Maak lege raster aan op basis van bovenstaande terrein raster
 		query = """
@@ -165,11 +165,11 @@ SELECT AddRasterConstraints('model_wildfire', 'ahn1_%(runid)s'::name, 'rast'::na
 		sys.stdout.flush()
 		subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host="+settings.pgserver_host+" port="+settings.pgserver_port+" dbname=research user=modeluser password=modeluser schema=model_wildfire table=fuelmodel_"+str(runid)+"\" "+ self.output_path + "/fuelmodel.asc", shell=True)      
 		#ELEV
-		#subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host=192.168.40.5 port=3389 dbname=research user=modeluser password=modeluser schema=model_wildfire table=ahn1_"+str(runid)+"\" " + self.output_path + "/ahn1.asc", shell=True)
+		subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host="+settings.pgserver_host+" port="+settings.pgserver_port+" dbname=research user=modeluser password=modeluser schema=model_wildfire table=ahn1_"+str(runid)+"\" " + self.output_path + "/ahn1.asc", shell=True)
 		#SLOPE
-		#subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host=192.168.40.5 port=3389 dbname=research user=modeluser password=modeluser schema=model_wildfire table=slope_"+str(runid)+"\" " + self.output_path + "/slope.asc", shell=True)
+		subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host="+settings.pgserver_host+" port="+settings.pgserver_port+" dbname=research user=modeluser password=modeluser schema=model_wildfire table=slope_"+str(runid)+"\" " + self.output_path + "/slope.asc", shell=True)
 		#ASPECT
-		#subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host=192.168.40.5 port=3389 dbname=research user=modeluser password=modeluser schema=model_wildfire table=aspect_"+str(runid)+"\" " + self.output_path + "/aspect.asc", shell=True)
+		subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host="+settings.pgserver_host+" port="+settings.pgserver_port+" dbname=research user=modeluser password=modeluser schema=model_wildfire table=aspect_"+str(runid)+"\" " + self.output_path + "/aspect.asc", shell=True)
 		#EMPTY RASTER
 		subprocess.call(self.gdal_translate_path + " -of AAIGrid -a_nodata -999 -outsize 100% 100% \"PG:host="+settings.pgserver_host+" port="+settings.pgserver_port+" dbname=research user=modeluser password=modeluser schema=model_wildfire table=emptyraster_"+str(runid)+"\" " + self.output_path + "/emptyraster.asc", shell=True)
 		#Some unneeded steps
@@ -180,9 +180,9 @@ SELECT AddRasterConstraints('model_wildfire', 'ahn1_%(runid)s'::name, 'rast'::na
 		#subprocess.call(self.gdalwarp_path + " -overwrite -srcnodata -999 -dstnodata -999 -s_srs epsg:28992 -t_srs epsg:900913 " + self.output_path + "/ahn1.tiff " + self.output_path + "/ahn1_900913.tiff", shell=True)
 		self.updateStatus(runid, "running", 75)
 		#LANDSCAPE INCLUDING ELEVATION
-		#subprocess.call(self.lcpmake_path + " -landscape " + self.output_path + "/landscape -elevation " + self.output_path + "/ahn1.asc -slope " + self.output_path + "/slope.asc -aspect " + self.output_path + "/aspect.asc -fuel " + self.output_path + "/fuelmodel.asc -cover " + self.output_path + "/emptyraster.asc -latitude 90", shell=True)
+		subprocess.call(self.lcpmake_path + " -landscape " + self.output_path + "/landscape -elevation " + self.output_path + "/ahn1.asc -slope " + self.output_path + "/slope.asc -aspect " + self.output_path + "/aspect.asc -fuel " + self.output_path + "/fuelmodel.asc -cover " + self.output_path + "/emptyraster.asc -latitude 90", shell=True)
 		#LANDSCAPE EXCLUDING ELEVATION
-		subprocess.call(self.lcpmake_path + " -landscape " + self.output_path + "/landscape -elevation " + self.output_path + "/emptyraster.asc -slope " + self.output_path + "/emptyraster.asc -aspect " + self.output_path + "/emptyraster.asc -fuel " + self.output_path + "/fuelmodel.asc -cover " + self.output_path + "/emptyraster.asc -latitude 90", shell=True)
+		#subprocess.call(self.lcpmake_path + " -landscape " + self.output_path + "/landscape -elevation " + self.output_path + "/emptyraster.asc -slope " + self.output_path + "/emptyraster.asc -aspect " + self.output_path + "/emptyraster.asc -fuel " + self.output_path + "/fuelmodel.asc -cover " + self.output_path + "/emptyraster.asc -latitude 90", shell=True)
 		self.updateStatus(runid, "finished", 100)
 		print('done')
 		return
